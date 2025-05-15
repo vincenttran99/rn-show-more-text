@@ -1,0 +1,66 @@
+{
+  "name": "rn-show-more-text",
+  "version": "1.0.0",
+  "description": "React Native show more text component",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
+    "clean": "rm -rf lib/",
+    "prebuild": "npm run clean",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags",
+    "release:patch": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:major": "npm version major && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vincenttran99/rn-show-more-text.git"
+  },
+  "keywords": [
+    "react-native",
+    "react",
+    "typescript",
+    "react",
+    "show more",
+    "ellipsis",
+    "multiline",
+    "show more text",
+    "show partial text",
+    "hide partial text",
+    "show-more fix",
+    "show text",
+    "hide text",
+    "read more",
+    "see more",
+    "collapse",
+    "expandable"
+  ],
+  "author": "vincenttran99",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vincenttran99/rn-show-more-text/issues"
+  },
+  "homepage": "https://github.com/vincenttran99/rn-show-more-text#readme",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.4",
+    "@types/react-native": "^0.70.0",
+    "prettier": "^3.5.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-native": "^0.79.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {}
+}
