@@ -90,7 +90,7 @@ export const RNShowMoreTextComponent = ({
   // Calculate the length of "see more" text plus compensation space
   const readMoreTextLength = useMemo(
     () => (readMoreText || "Show more").length + compensationSpaceAndroid,
-    [compensationSpaceAndroid, readMoreText]
+    [compensationSpaceAndroid, readMoreText],
   );
 
   /**
@@ -139,7 +139,7 @@ export const RNShowMoreTextComponent = ({
         // Remove trailing newline if present for width calculation
         const textWithoutNewline = textLinesRef.current[i].text.slice(
           0,
-          textLinesRef.current[i].text.endsWith("\n") ? -1 : undefined
+          textLinesRef.current[i].text.endsWith("\n") ? -1 : undefined,
         );
 
         // Calculate average character width for this line
@@ -175,8 +175,8 @@ export const RNShowMoreTextComponent = ({
             lastLineWidth <= targetLastLineWidth
               ? undefined
               : -Math.ceil(
-                  (lastLineWidth - targetLastLineWidth) / averageCharacterWidth
-                )
+                  (lastLineWidth - targetLastLineWidth) / averageCharacterWidth,
+                ),
           )
           .trim() + "... ";
 
@@ -210,7 +210,7 @@ export const RNShowMoreTextComponent = ({
       textLinesRef.current = event.nativeEvent?.lines || [];
       calculateTruncatedText();
     },
-    [onTextLayout, numberOfLines, readMoreTextLength]
+    [onTextLayout, numberOfLines, readMoreTextLength],
   );
 
   /**
@@ -231,7 +231,7 @@ export const RNShowMoreTextComponent = ({
       // Call any onPress handler provided in readMoreTextProps
       readMoreTextProps?.onPress?.(event);
     },
-    [isShowingFullText, children, readMoreTextProps?.onPress]
+    [isShowingFullText, children, readMoreTextProps?.onPress],
   );
 
   /**
