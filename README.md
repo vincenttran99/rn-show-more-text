@@ -52,7 +52,7 @@ The RNShowMoreText component supports the following props:
 | readMoreText             | string                 | No       | "Show more"            | Custom text for the "show more" button                                                      |
 | readLessText             | string                 | No       | "Show less"            | Custom text for the "show less" button                                                      |
 | compensationSpaceAndroid | number                 | No       | 7                      | Extra space to account for when calculating text truncation on Android (in character width) |
-| compensationSpaceIOS     | number                 | No       | 7                      | Extra space to account for when calculating text truncation on Android (in character width) |
+| compensationSpaceIOS     | number                 | No       | 7                      | Extra space to account for when calculating text truncation on IOS (in character width)     |
 
 In addition, this component accepts all standard [Text Props](https://reactnative.dev/docs/text) from React Native.
 
