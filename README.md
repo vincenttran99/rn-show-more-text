@@ -51,8 +51,8 @@ The RNShowMoreText component supports the following props:
 | readMoreTextProps        | TextProps              | No       | -                      | Additional props for the "show more"/"show less" text component                             |
 | readMoreText             | string                 | No       | "Show more"            | Custom text for the "show more" button                                                      |
 | readLessText             | string                 | No       | "Show less"            | Custom text for the "show less" button                                                      |
-| compensationSpaceAndroid | number                 | No       | 7                      | Extra space to account for when calculating text truncation on Android (in character width) |
-| compensationSpaceIOS     | number                 | No       | 7                      | Extra space to account for when calculating text truncation on IOS (in character width)     |
+| compensationSpaceAndroid | number                 | No       | 6                      | Extra space to account for when calculating text truncation on Android (in character width) |
+| compensationSpaceIOS     | number                 | No       | 6                      | Extra space to account for when calculating text truncation on IOS (in character width)     |
 
 In addition, this component accepts all standard [Text Props](https://reactnative.dev/docs/text) from React Native.
 
@@ -66,9 +66,11 @@ In addition, this component accepts all standard [Text Props](https://reactnativ
 
 ## How It Works
 
+> **Note: Android instability may occur**. For example, even though the same paragraph has different lengths, on Android devices, "line bouncing" may occur. For example, if you have a string printed out with 10 lines, if you delete the last 1-2 words of the string, it may also change the number of lines and the length of the lines even with the first lines (which are actually unrelated to the last words). Currently, I do not have a solution to this problem. If anyone has a solution, please create an issue or a PR so we can discuss it, thank you.
+
 The component intelligently calculates the average character width and determines exactly how much text can be displayed within the specified number of lines while leaving room for the "Show more" button. This ensures that text is truncated at a natural point with proper ellipsis.
 
-`compensationSpace` is the offset parameter, 1 unit corresponds to 1 character. You can understand that for example, when we replace 8 characters i "iiiiiiiii" with 8 characters m "mmmmmmmm", it is possible to make the string "Show more" jump to a new line because they have different widths, I set the default to 7 because in addition to the phrase "Show more" "Show less" or any character you customize, I default to append "... " to the end of the string and it is 4 characters, setting the default to 7 means I am promoting an additional length of 3 characters. Basically, the larger the `compensationSpace`, the less likely it is that "Show more" will jump to the next line, the smaller the `compensationSpace`, the more space it will create on the right ("Show more" is not really long enough to reach the end of the line). The values ​​6,7,8,9,10 cover almost all common string cases, unless we have weird strings that are too short or too long with the same number of characters (e.g. iiiiiiiiiiiiiiiiiiiii or mmmmmmmmmmmmmmmmmmmmmm)
+`compensationSpace` is the offset parameter, 1 unit corresponds to 1 character. You can understand that for example, when we replace 8 characters i "iiiiiiiii" with 8 characters m "mmmmmmmm", it is possible to make the string "Show more" jump to a new line because they have different widths, I set the default to 6 because in addition to the phrase "Show more" "Show less" or any character you customize, I default to append "... " to the end of the string and it is 4 characters, setting the default to 6 means I am promoting an additional length of 2 characters. Basically, the larger the `compensationSpace`, the less likely it is that "Show more" will jump to the next line, the smaller the `compensationSpace`, the more space it will create on the right ("Show more" is not really long enough to reach the end of the line). The values 5,​​6,7,8,9 cover almost all common string cases, unless we have weird strings that are too short or too long with the same number of characters (e.g. iiiiiiiiiiiiiiiiiiiii or mmmmmmmmmmmmmmmmmmmmmm)
 
 ## License
 
