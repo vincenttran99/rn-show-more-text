@@ -94,7 +94,7 @@ export const RNShowMoreTextComponent = ({
   // Calculate the length of "see more" text plus compensation space
   const readMoreTextLength = useMemo(
     () => (readMoreText || "Show more").length + compensationSpaceAndroid,
-    [compensationSpaceAndroid, readMoreText]
+    [compensationSpaceAndroid, readMoreText],
   );
 
   /**
@@ -186,7 +186,7 @@ export const RNShowMoreTextComponent = ({
         lastLineWidth <= targetLastLineWidth
           ? undefined // Keep all characters if last line fits
           : -Math.ceil(
-              (lastLineWidth - targetLastLineWidth) / (avgCharacterWidth || 1)
+              (lastLineWidth - targetLastLineWidth) / (avgCharacterWidth || 1),
             );
 
       // Construct the truncated text.
@@ -199,7 +199,7 @@ export const RNShowMoreTextComponent = ({
             sliceEndOffset
               ? sliceEndOffset -
                   countShortCharactersHelper(visibleText.slice(sliceEndOffset))
-              : undefined
+              : undefined,
           )
           .trim() + "... "; // Add ellipsis and a space
 
@@ -233,7 +233,7 @@ export const RNShowMoreTextComponent = ({
       textLinesRef.current = event.nativeEvent?.lines || [];
       calculateTruncatedText();
     },
-    [onTextLayout, numberOfLines, readMoreTextLength]
+    [onTextLayout, numberOfLines, readMoreTextLength],
   );
 
   /**
@@ -254,7 +254,7 @@ export const RNShowMoreTextComponent = ({
       // Call any onPress handler provided in readMoreTextProps
       readMoreTextProps?.onPress?.(event);
     },
-    [children, readMoreTextProps?.onPress]
+    [children, readMoreTextProps?.onPress],
   );
 
   /**
@@ -272,7 +272,7 @@ export const RNShowMoreTextComponent = ({
       containerWidthRef.current = event.nativeEvent?.layout?.width || 0;
       calculateTruncatedText();
     },
-    [numberOfLines]
+    [numberOfLines],
   );
 
   return (
