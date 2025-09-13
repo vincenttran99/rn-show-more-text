@@ -1,6 +1,6 @@
 {
   "name": "rn-show-more-text",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "React Native show more text component",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

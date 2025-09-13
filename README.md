@@ -37,6 +37,18 @@ import RNShowMoreText from "rn-show-more-text";
 >
   {longText}
 </RNShowMoreText>
+
+// With advanced character width customization
+<RNShowMoreText
+  numberOfLines={3}
+  isMonospaced={false}
+  shortWidthCharacters={['i', 't', 'l']}
+  longWidthCharacters={['m', 'w', 'M', 'W']}
+  compensationSpaceIos={1}
+  compensationSpaceAndroid={0}
+>
+  {longText}
+</RNShowMoreText>
 ```
 
 ## Props
@@ -51,18 +63,24 @@ The RNShowMoreText component supports the following props:
 | readMoreTextProps        | TextProps              | No       | -                      | Additional props for the "show more"/"show less" text component                             |
 | readMoreText             | string                 | No       | "Show more"            | Custom text for the "show more" button                                                      |
 | readLessText             | string                 | No       | "Show less"            | Custom text for the "show less" button                                                      |
-| compensationSpaceAndroid | number                 | No       | 6                      | Extra space to account for when calculating text truncation on Android (in character width) |
-| compensationSpaceIOS     | number                 | No       | 6                      | Extra space to account for when calculating text truncation on IOS (in character width)     |
+| compensationSpaceAndroid | number                 | No       | 0                      | Extra space to account for when calculating text truncation on Android (in character width) |
+| compensationSpaceIos     | number                 | No       | 1                      | Extra space to account for when calculating text truncation on iOS (in character width)     |
+| isMonospaced             | boolean                | No       | false                  | Whether the font being used is monospaced (all characters have equal width)                |
+| shortWidthCharacters     | string[]               | No       | []                     | Array of characters that have short width (0.5x normal character width)                    |
+| longWidthCharacters      | string[]               | No       | []                     | Array of characters that have long width (1.5x normal character width)                     |
 
 In addition, this component accepts all standard [Text Props](https://reactnative.dev/docs/text) from React Native.
 
 ## Key Features
 
 - Intelligently calculates text truncation with proper ellipsis
+- **Advanced text handling**: Supports various character widths including emojis, narrow characters (i, t, l), and wide characters (m, w, M, W)
+- **Smart visual width calculation**: Automatically adjusts for different character types to ensure accurate text measurement
 - Smooth animation when expanding/collapsing text
 - Customizable "Show more"/"Show less" text and styling
 - Works with dynamic content and container resizing
 - Optimized performance with memoization
+- Cross-platform compatibility with platform-specific adjustments
 
 ## How It Works
 
@@ -70,7 +88,61 @@ In addition, this component accepts all standard [Text Props](https://reactnativ
 
 The component intelligently calculates the average character width and determines exactly how much text can be displayed within the specified number of lines while leaving room for the "Show more" button. This ensures that text is truncated at a natural point with proper ellipsis.
 
-`compensationSpace` is the offset parameter, 1 unit corresponds to 1 character. You can understand that for example, when we replace 8 characters i "iiiiiiiii" with 8 characters m "mmmmmmmm", it is possible to make the string "Show more" jump to a new line because they have different widths, I set the default to 6 because in addition to the phrase "Show more" "Show less" or any character you customize, I default to append "... " to the end of the string and it is 4 characters, setting the default to 6 means I am promoting an additional length of 2 characters. Basically, the larger the `compensationSpace`, the less likely it is that "Show more" will jump to the next line, the smaller the `compensationSpace`, the more space it will create on the right ("Show more" is not really long enough to reach the end of the line). The values 5,​​6,7,8,9 cover almost all common string cases, unless we have weird strings that are too short or too long with the same number of characters (e.g. iiiiiiiiiiiiiiiiiiiii or mmmmmmmmmmmmmmmmmmmmmm)
+`compensationSpaceIos` and `compensationSpaceAndroid` are offset parameters, where 1 unit corresponds to 1 character width. These parameters help account for platform-specific text rendering differences. For example, when we replace 8 characters "i" with 8 characters "m", it is possible to make the "Show more" text jump to a new line because they have different visual widths.
+
+The component appends "... " (4 characters) to the truncated text before adding the "Show more" button. The compensation space provides additional buffer to prevent layout issues:
+
+- **iOS** (default: 1): iOS text rendering is generally more predictable, requiring minimal compensation
+- **Android** (default: 0): Android text rendering can be more variable, but the default works for most cases
+
+Basically, the larger the compensation space, the less likely it is that "Show more" will jump to the next line. The smaller the compensation space, the more space it will create on the right. You may need to adjust these values based on your specific font and text content.
+
+## Advanced Text Handling
+
+This component provides sophisticated text handling capabilities that go beyond simple character counting. It intelligently handles various types of characters with different visual widths:
+
+### Character Width Classification
+
+- **Short Width Characters (0.5x)**: Narrow characters like `i`, `t`, `f`, `r`, `l`, punctuation marks (`.`, `,`, `;`, `:`)
+- **Normal Width Characters (1x)**: Most alphabetic characters and numbers
+- **Long Width Characters (1.5x)**: Wide characters like `m`, `w`, `M`, `W`
+- **Emoji Characters (2x)**: All emoji characters take approximately double the width of normal characters
+
+### Smart Visual Width Calculation
+
+The component uses a sophisticated algorithm to calculate the visual width of text:
+
+1. **Character Classification**: Each character is classified into one of the width categories above
+2. **Visual Length Calculation**: The total visual width is calculated by summing the individual character widths
+3. **Intelligent Truncation**: Text is truncated based on visual width rather than character count, ensuring consistent appearance
+
+### Customization Options
+
+You can customize the character width classification:
+
+- `shortWidthCharacters`: Override the default list of narrow characters
+- `longWidthCharacters`: Override the default list of wide characters  
+- `isMonospaced`: Set to true if using a monospaced font where all characters have equal width
+
+### Example with Mixed Content
+
+```tsx
+// Text with emojis, narrow and wide characters
+<RNShowMoreText numberOfLines={2}>
+  {"Hello! 👋 This text contains emojis 😊🎉, narrow characters like 'i' and 'l', and wide characters like 'M' and 'W'. The component will calculate the visual width accurately! 🚀"}
+</RNShowMoreText>
+
+// Custom character width configuration
+<RNShowMoreText
+  numberOfLines={3}
+  shortWidthCharacters={['i', 't', 'l', 'f', 'r', '.', ',']}
+  longWidthCharacters={['m', 'w', 'M', 'W', '@', '#']}
+>
+  {"Custom width handling for specific characters and symbols."}
+</RNShowMoreText>
+```
+
+This advanced handling ensures that text truncation appears natural and consistent, regardless of the mix of character types in your content.
 
 ## License
 
